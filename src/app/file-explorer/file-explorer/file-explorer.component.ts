@@ -4,6 +4,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { RenameDialogComponent } from '../modals/rename-dialog/rename-dialog.component';
 import { NewFolderDialogComponent } from '../modals/new-folder-dialog/new-folder-dialog.component';
+import { FileExplorerService } from '../file-explorer.service';
 
 @Component({
   selector: 'file-explorer',
@@ -11,42 +12,61 @@ import { NewFolderDialogComponent } from '../modals/new-folder-dialog/new-folder
   styleUrls: ['./file-explorer.component.css']
 })
 export class FileExplorerComponent {
-  @Input() fileElements: FileElement[];
-  @Input() canNavigateUp: string;
-  @Input() path: string;
+  fileElements: FileElement[];
+  canNavigateUp = false;
+  path = '/';
 
-  @Output() folderAdded = new EventEmitter<{ name: string }>();
-  @Output() elementRemoved = new EventEmitter<FileElement>();
-  @Output() elementRenamed = new EventEmitter<FileElement>();
-  @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
-  @Output() navigatedDown = new EventEmitter<FileElement>();
-  @Output() navigatedUp = new EventEmitter();
-
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private service: FileExplorerService) {
+    this.service.getForPath(this.path).subscribe(data => {
+      this.fileElements = data;
+    });
+  }
 
   deleteElement(element: FileElement) {
-    this.elementRemoved.emit(element);
+    this.service.delete(element.name, element.path).subscribe(data => {
+      console.log(data);
+    });
+    this.fileElements.splice(this.fileElements.indexOf(element), 1);
   }
 
   navigate(element: FileElement) {
-    if (element.isFolder) {
-      this.navigatedDown.emit(element);
+    if (element.fileType === 'FOLDER') {
+      const newPath = this.path + (this.path.endsWith('/') ? '' : '/') + element.name;
+      this.service.getForPath(newPath).subscribe(data => {
+        this.fileElements = data;
+      })
+      this.path = newPath;
+      this.canNavigateUp = true;
     }
   }
 
   navigateUp() {
-    this.navigatedUp.emit();
+    if (this.path !== '/') {
+      var newPath = this.path.substring(0, this.path.lastIndexOf('/'));
+      if (newPath === '') {
+        newPath = '/'
+      }
+      this.service.getForPath(newPath).subscribe(data => {
+        this.fileElements = data;
+      });
+      if (newPath === '/') {
+        this.canNavigateUp = false;
+      }
+      this.path = newPath;
+    }
   }
 
   moveElement(element: FileElement, moveTo: FileElement) {
-    this.elementMoved.emit({ element: element, moveTo: moveTo });
+    // this.elementMoved.emit({ element: element, moveTo: moveTo });
   }
 
   openNewFolderDialog() {
     let dialogRef = this.dialog.open(NewFolderDialogComponent);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.folderAdded.emit({ name: res });
+        this.service.newFolder(res, this.path).subscribe( data => {
+          this.fileElements.push(data);
+        });
       }
     });
   }
@@ -55,8 +75,10 @@ export class FileExplorerComponent {
     let dialogRef = this.dialog.open(RenameDialogComponent);
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.service.rename(res, element.name, this.path).subscribe( data => {
+          console.log(data);
+        });
         element.name = res;
-        this.elementRenamed.emit(element);
       }
     });
   }

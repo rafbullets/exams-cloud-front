@@ -31,7 +31,7 @@
 <mat-menu #moveToMenu="matMenu">
   <ng-template matMenuContent let-self="self">
     <ng-container *ngFor="let element of fileElements">
-      <button *ngIf="element.isFolder && element.id !== self.id" mat-menu-item (click)="moveElement(self, element)">{{element.name}}</button>
+      <button *ngIf="element.fileType === 'FOLDER' && self.name !== element.name" mat-menu-item (click)="moveElement(self, element)">{{element.name}}</button>
     </ng-container>
   </ng-template>
 </mat-menu>
@@ -50,16 +50,16 @@
         <div  fxLayout="column" 
               fxLayoutAlign="space-between center" 
               (click)="navigate(element)" 
-              (contextmenu)="openMenu($event, menuTrigger)">
+              (contextmenu)="openMenu($event, element, menuTrigger)">
 
           <mat-icon color="primary" 
                     class="file-or-folder-icon pointer" 
-                    *ngIf="element.isFolder">
+                    *ngIf="element.fileType === 'FOLDER'">
             folder
           </mat-icon>
           <mat-icon color="primary" 
                     class="file-or-folder-icon pointer" 
-                    *ngIf="!element.isFolder">
+                    *ngIf="!(element.fileType === 'FOLDER')">
             insert_drive_file
           </mat-icon>
 

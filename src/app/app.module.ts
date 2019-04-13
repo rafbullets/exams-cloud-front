@@ -3,9 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FileExplorerModule } from './file-explorer/file-explorer.module';
 import { MatCardModule } from '@angular/material/card'
-import { NewFolderDialogComponent } from './file-explorer/modals/new-folder-dialog/new-folder-dialog.component';
-import { RenameDialogComponent } from './file-explorer/modals/rename-dialog/rename-dialog.component';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,6 +12,7 @@ import { RenameDialogComponent } from './file-explorer/modals/rename-dialog/rena
     BrowserModule,
     FileExplorerModule,
     MatCardModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
