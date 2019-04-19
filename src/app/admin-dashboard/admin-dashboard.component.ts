@@ -15,6 +15,7 @@ export class AdminDashboardComponent implements OnInit {
 
   onStorageSelect(event) {
     document.cookie = "storage=" + event.value +"; expires= Thu, 21 Aug 2050 20:00:00 UTC"
+    window.location.reload();
     console.log(document.cookie);
   }
 

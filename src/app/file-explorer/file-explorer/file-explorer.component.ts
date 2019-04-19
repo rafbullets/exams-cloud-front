@@ -55,6 +55,7 @@ export class FileExplorerComponent {
       })
       this.path = newPath;
       this.canNavigateUp = true;
+      this.selectionModel = []
     }
   }
 
@@ -97,6 +98,7 @@ export class FileExplorerComponent {
         this.canNavigateUp = false;
       }
       this.path = newPath;
+      this.selectionModel = []
     }
   }
 
