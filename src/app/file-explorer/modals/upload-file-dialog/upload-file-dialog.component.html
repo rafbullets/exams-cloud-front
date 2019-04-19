@@ -1,0 +1,27 @@
+<h1 mat-dialog-title>Upload Files</h1>
+
+<mat-dialog-content>
+      <input 
+      type="file"
+       id="file"
+       (change)="handleFileInput($event.target.files)"
+       multiple
+       >
+
+
+<br>
+
+<mat-checkbox [(ngModel)]="isArchive">Checked</mat-checkbox>
+
+<br>
+
+<mat-form-field  *ngIf="isArchive" class="example-full-width">
+  <input matInput placeholder="Archive Name" [(ngModel)]="archiveName">
+</mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="handleClose()" color="primary">Upload</button>
+</mat-dialog-actions>

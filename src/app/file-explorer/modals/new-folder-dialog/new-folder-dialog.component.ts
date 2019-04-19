@@ -12,4 +12,6 @@ export class NewFolderDialogComponent implements OnInit {
   ngOnInit() {
   }
 
+  
+
 }

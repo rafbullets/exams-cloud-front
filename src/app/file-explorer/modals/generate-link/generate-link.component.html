@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Select upload path</h1>
+<mat-dialog-content>
+  <file-explorer (generateUploadPath)="onGenerateUploadPath($event)" [isSimple]="false">
+  </file-explorer>
+
+  <br>
+  <br>
+
+  <div *ngIf="link">GENERATED LINK: {{link}}</div>
+
+  <button mat-raised-button mat-dialog-close>Close</button>
+
+</mat-dialog-content>
+

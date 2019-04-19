@@ -1,0 +1,41 @@
+
+    <mat-form-field >
+      <input matInput placeholder="First Name" [(ngModel)]="firstName"/>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <input matInput placeholder="Last Name"  [(ngModel)]="lastName"/>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <input matInput  placeholder="Index number"  [(ngModel)]="indexNo"/>
+    </mat-form-field>
+    <br>
+    <mat-form-field >
+      <input matInput  placeholder="Url" [(ngModel)]="url"/>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Group</mat-label>
+        <mat-select (selectionChange)="onGroupSelect($event)">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let group of groups" [value]="group">
+            {{group.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    <button mat-raised-button (click)="getGroups()">Get groups</button>
+
+
+  
+  <br>
+      
+    <button mat-raised-button (click)="uploadFile()">Upload</button>
+    <input 
+      type="file"
+      id="file"
+      (change)="handleFileInput($event.target.files)"
+     >
+  <br>
+    <button mat-raised-button (click)="downloadFile()">Download</button>
+

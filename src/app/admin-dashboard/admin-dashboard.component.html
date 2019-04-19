@@ -1,0 +1,19 @@
+<div style="padding: 100px; height: 100%; box-sizing: border-box;">
+
+    <mat-form-field>
+      <mat-label> Storage </mat-label>
+      <mat-select [value]="storage" (selectionChange)="onStorageSelect($event)">
+        <mat-option  value="local">
+          Local
+        </mat-option>
+        <mat-option value="dropbox">
+          Dropbox
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-card style="height: 100%; box-sizing: border-box; padding:0">
+      <file-explorer [isSimple]="true">
+      </file-explorer>
+    </mat-card>
+  </div>
