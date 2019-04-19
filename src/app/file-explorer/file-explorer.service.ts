@@ -63,9 +63,10 @@ export class FileExplorerService {
     return this.http.get<FileElement[]>(encrypted_path);
   }
 
-  uploadToUrl(file, path) {
+  uploadToUrl(file, path, student) {
     const data = new FormData()
     data.append('file', file)
+    data.append('student', JSON.stringify(student))
     return this.http.post<any>(path, data)
   }
 }

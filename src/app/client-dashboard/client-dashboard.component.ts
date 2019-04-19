@@ -45,7 +45,13 @@ export class ClientDashboardComponent implements OnInit {
 
   uploadFile(){
     if (this.file) {
-      this.service.uploadToUrl(this.file, this.url).subscribe(res => {
+      let student = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        indexNo: this.indexNo,
+        group: this.selectedGroup.name,
+      }
+      this.service.uploadToUrl(this.file, this.url, student).subscribe(res => {
         console.log(res)
       })
     }
